@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+export default function App() {
+  const apiKey = "d54919d21826957b16fa1de8e3099d25";
+  const apiUrl =
+    "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-function App() {
-  const [count, setCount] = useState(0)
+  const [weatherObj, setWeatherObj] = useState({ name: "" });
+  const [location, setLocation] = useState("London");
+  async function checkWeather() {
+    const response = await fetch(apiUrl + location + `&appid=${apiKey}`);
+    var data = await response.json();
+    console.log(data);
+    setWeatherObj({ name: data.name });
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <input
+        type="text"
+        onChange={(e) => {
+          setLocation(e.target.value);
+        }}
+      />
+      <button onClick={checkWeather}>Check the weather!</button>
+      <h1>{weatherObj.name}</h1>
+    </div>
+  );
 }
-
-export default App
