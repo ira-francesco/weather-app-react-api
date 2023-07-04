@@ -30,10 +30,14 @@ export default function App() {
     setWeatherObj({
       name: `${data.name}, ${data.sys.country}`,
       weatherMain: data.weather[0].main,
-      temp: `${Math.round(Number(data.main.temp))}° C`,
+      temp: `${Math.round(Number(data.main.temp))}`,
       feelsLike: `${Math.round(Number(data.main.feels_like))}° C`,
       humidity: `${data.main.humidity}%`,
-      icon: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`
+      icon: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+      description: data.weather[0].description,
+      maxTemp: `${Math.round(Number(data.main.temp_max))}° C`,
+      minTemp: `${Math.round(Number(data.main.temp_min))}° C`,
+      windSpeed: `${data.wind.speed}mph`
     });
   }
 
@@ -57,12 +61,31 @@ export default function App() {
         </button>
       </div>
       <div className={"main-container"}>
-        <h1>{weatherObj.name}</h1>
+        <div className={"weather-container"}>
+          <img
+            style={{ width: "180px", display: "block", margin: "0 auto" }}
+            src={weatherObj.icon !== "" ? weatherObj.icon : null}
+            alt={""}
+          />
+
+          <h1 style={{ fontSize: "3rem" }}>
+            {weatherObj.temp}{" "}
+            <span
+              style={{
+                fontSize: "1.2rem",
+                position: "absolute",
+                marginTop: "7px"
+              }}
+            >
+              °C
+            </span>
+          </h1>
+          <h1>{weatherObj.description}</h1>
+          <h1>{weatherObj.name}</h1>
+        </div>
         <h1>{weatherObj.weatherMain}</h1>
-        <h1>{weatherObj.temp}</h1>
         <h1>{weatherObj.feelsLike}</h1>
         <h1>{weatherObj.humidity}</h1>
-        <img src={weatherObj.icon} alt={"weather-icon"} />
       </div>
     </div>
   );
