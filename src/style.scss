@@ -51,7 +51,7 @@ button:hover{
   background-color: rgb(129, 129, 129);
 }
 
-.weather-container{
+.weather-container, .humidity-container{
   
   border-radius: 2rem;
   padding: 1rem;
@@ -63,25 +63,33 @@ button:hover{
   -webkit-backdrop-filter: blur(7.3px);
   border: 1px solid rgba(161, 161, 161, 0.42);
   height: inherit;
-  width: 250px;
+}
+
+.weather-container{
+  height: 600px;
 }
 
 .main-container {
-  padding: 7rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  width: 100vw;
-  height: 67.5vh;
-  border: 1px solid red;
-  width: auto;
+  margin: 6rem auto 0px auto;
+  gap: 15px;
+  width: 60vw;
+
+  > div{
+    background: rgba(111, 111, 111, 0.31);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(7.3px);
+    border: 1px solid rgba(161, 161, 161, 0.42);
+    border-radius: 1rem;
   }
+}
   
-  .div1 { grid-area: 1 / 1 / 4 / 2; }
-  .div2 { grid-area: 2 / 2 / 3 / 3; }
-  .div3 { grid-area: 2 / 3 / 3 / 4; }
-  .div4 { grid-area: 3 / 2 / 4 / 3; }
+  .weather-container { grid-area: 1 / 1 / 4 / 2; }
+  .div4 { grid-area: 2 / 2 / 3 / 3; }
+  .div2 { grid-area: 2 / 3 / 3 / 4; }
+  .humidity-container { grid-area: 3 / 2 / 4 / 3; }
   .div5 { grid-area: 3 / 3 / 4 / 4; }
   .div6 { grid-area: 1 / 2 / 2 / 4; }

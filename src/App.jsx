@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./style.scss";
 import backgroundImage from "./assets/background.jpg";
-import { capitalize } from "./functions";
+import { capitalize, clock } from "./functions";
 export default function App() {
   const apiKey = "d54919d21826957b16fa1de8e3099d25";
   const apiUrl =
@@ -80,13 +80,45 @@ export default function App() {
               {weatherObj.temp !== "" ? "°C" : ""}
             </span>
           </h1>
-          <h1>{weatherObj.description}</h1>
-          <h1>{weatherObj.name}</h1>
-          <h1>{weatherObj.name !== "" ? nameDay : ""}</h1>
+          <h1>{weatherObj.name !== "" ? `${nameDay}, ${clock()}` : ""}</h1>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
+            <img
+              style={{
+                width: "50px",
+                marginLeft: "-5px"
+              }}
+              src={weatherObj.icon !== "" ? weatherObj.icon : null}
+              alt={""}
+            />
+            <h1>{weatherObj.description}</h1>
+          </div>
+          <h1 style={{ textAlign: "center", marginTop: "40px" }}>
+            {weatherObj.name}
+          </h1>
+          <img
+            src={`https://flagsapi.com/${weatherObj.name.slice(
+              -2
+            )}/flat/64.png`}
+            alt={"flag-icon"}
+            style={{ display: "block", margin: "0 auto" }}
+          />
         </div>
-        <h1>{weatherObj.weatherMain}</h1>
-        <h1>{weatherObj.feelsLike}</h1>
-        <h1>{weatherObj.humidity}</h1>
+        <div className={"humidity-container"}>
+          <h2 style={{ marginTop: "-5px" }}>Humidity</h2>
+          <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.humidity}</h1>
+        </div>
+        <div className={"div2"}>
+          <h2 style={{}}>Wind Speed</h2>
+          <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.windSpeed}</h1>
+        </div>
+        <div className={"div4"}></div>
+        <div className={"div5"}></div>
+        <div className={"div6"}></div>
       </div>
     </div>
   );
