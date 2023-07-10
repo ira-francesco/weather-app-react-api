@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./style.scss";
 import backgroundImage from "./assets/background.jpg";
-import { capitalize, clock } from "./functions";
+import { capitalize, clock, convertKm, convertMsToTime } from "./functions";
 export default function App() {
   const apiKey = "d54919d21826957b16fa1de8e3099d25";
   const apiUrl =
@@ -27,6 +27,7 @@ export default function App() {
   async function checkWeather() {
     const response = await fetch(`${apiUrl}${location}&appid=${apiKey}`);
     var data = await response.json();
+    console.log(data);
     setWeatherObj({
       name: `${data.name}, ${data.sys.country}`,
       weatherMain: data.weather[0].main,
@@ -35,9 +36,12 @@ export default function App() {
       humidity: `${data.main.humidity}%`,
       icon: `${iconUrl}${data.weather[0].icon}@2x.png`,
       description: data.weather[0].description,
+      visibility: data.visibility,
       maxTemp: `${Math.round(Number(data.main.temp_max))}° C`,
       minTemp: `${Math.round(Number(data.main.temp_min))}° C`,
-      windSpeed: `${data.wind.speed}mph`
+      windSpeed: `${data.wind.speed}mph`,
+      sunrise: convertMsToTime(data.sys.sunrise),
+      sunset: convertMsToTime(data.sys.sunset)
     });
   }
 
@@ -101,23 +105,35 @@ export default function App() {
             {weatherObj.name}
           </h1>
           <img
-            src={`https://flagsapi.com/${weatherObj.name.slice(
-              -2
-            )}/flat/64.png`}
+            src={
+              weatherObj.name !== ""
+                ? `https://flagsapi.com/${weatherObj.name.slice(
+                    -2
+                  )}/flat/64.png`
+                : ""
+            }
             alt={"flag-icon"}
             style={{ display: "block", margin: "0 auto" }}
           />
         </div>
         <div className={"humidity-container"}>
-          <h2 style={{ marginTop: "-5px" }}>Humidity</h2>
+          <h2>{weatherObj.name !== "" ? "Humidity" : ""}</h2>
           <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.humidity}</h1>
         </div>
-        <div className={"div2"}>
-          <h2 style={{}}>Wind Speed</h2>
+        <div className={"wind-speed-container"}>
+          <h2 style={{}}>{weatherObj.name !== "" ? "Wind Speed" : ""}</h2>
           <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.windSpeed}</h1>
         </div>
-        <div className={"div4"}></div>
-        <div className={"div5"}></div>
+        <div className={"visibility-container"}>
+          <h2 style={{}}>{weatherObj.name !== "" ? "Visiblity" : ""}</h2>
+          <h1 style={{ fontSize: "3.5rem" }}>
+            {convertKm(weatherObj.visibility)}
+          </h1>
+        </div>
+        <div className={"sun-container"}>
+          <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunrise : ""}</h2>
+          <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunset : ""}</h2>
+        </div>
         <div className={"div6"}></div>
       </div>
     </div>
