@@ -52,9 +52,7 @@ button:hover{
 }
 
 .weather-container, .humidity-container{
-  
   border-radius: 2rem;
-  padding: 1rem;
   color: rgb(255, 255, 255);
   font-size: 1rem;
   background: rgba(111, 111, 111, 0.31);
@@ -84,6 +82,11 @@ button:hover{
     -webkit-backdrop-filter: blur(7.3px);
     border: 1px solid rgba(161, 161, 161, 0.42);
     border-radius: 1rem;
+    color: #fff;
+
+    > *{
+      margin: 1rem;
+    }
   }
 }
   

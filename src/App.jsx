@@ -131,7 +131,9 @@ export default function App() {
           </h1>
         </div>
         <div className={"sun-container"}>
+          <h2>Sunrise</h2>
           <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunrise : ""}</h2>
+          <h2>Sunset</h2>
           <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunset : ""}</h2>
         </div>
         <div className={"div6"}></div>
