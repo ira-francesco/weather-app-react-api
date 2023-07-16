@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./style.scss";
 import backgroundImage from "./assets/background.jpg";
-import { capitalize, clock, convertKm, convertMsToTime } from "./functions";
+import { capitalize, clock, convertKm, convertfromMphtoKm } from "./functions";
 export default function App() {
   const apiKey = "d54919d21826957b16fa1de8e3099d25";
   const apiUrl =
@@ -17,7 +17,9 @@ export default function App() {
     humidity: "",
     main: "",
     icon: "",
-    windSpeed: ""
+    windSpeed: "",
+    sunrise: "",
+    sunset: ""
   });
 
   const date = new Date();
@@ -36,12 +38,12 @@ export default function App() {
       humidity: `${data.main.humidity}%`,
       icon: `${iconUrl}${data.weather[0].icon}@2x.png`,
       description: data.weather[0].description,
-      visibility: data.visibility,
+      visibility: `${convertKm(data.visibility)}km`,
       maxTemp: `${Math.round(Number(data.main.temp_max))}° C`,
       minTemp: `${Math.round(Number(data.main.temp_min))}° C`,
-      windSpeed: `${data.wind.speed}mph`,
-      sunrise: convertMsToTime(data.sys.sunrise),
-      sunset: convertMsToTime(data.sys.sunset)
+      windSpeed: `${convertfromMphtoKm(data.wind.speed)} km/h`,
+      sunrise: new Date(data.sys.sunrise * 1000).toString().slice(16, 21),
+      sunset: new Date(data.sys.sunset * 1000).toString().slice(16, 21)
     });
   }
 

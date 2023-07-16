@@ -2,9 +2,16 @@ export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export function getFormattedTime(date) {}
+
 export function convertKm(unit) {
   var km = unit / 1000;
-  return `${km.toFixed(1)}km`;
+  return `${km.toFixed(1)}`;
+}
+
+export function convertfromMphtoKm(unit) {
+  var kmh = unit * 1.609;
+  return `${kmh.toFixed(1)}`;
 }
 
 export function clock() {
