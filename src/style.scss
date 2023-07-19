@@ -95,4 +95,7 @@ button:hover{
   .div2 { grid-area: 2 / 3 / 3 / 4; }
   .humidity-container { grid-area: 3 / 2 / 4 / 3; }
   .div5 { grid-area: 3 / 3 / 4 / 4; }
-  .div6 { grid-area: 1 / 2 / 2 / 4; }
+  .div6 { grid-area: 1 / 2 / 2 / 4; 
+    display: flex;
+    justify-content: space-around;
+  }

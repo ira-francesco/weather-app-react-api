@@ -4,9 +4,11 @@ import backgroundImage from "./assets/background.jpg";
 import { capitalize, clock, convertKm, convertfromMphtoKm } from "./functions";
 export default function App() {
   const apiKey = "d54919d21826957b16fa1de8e3099d25";
+
   const apiUrl =
     "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-
+  const weekdaysApiUrl =
+    "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
   const iconUrl = "http://openweathermap.org/img/wn/";
   const [weatherObj, setWeatherObj] = useState({
     name: "",
@@ -26,10 +28,17 @@ export default function App() {
   let nameDay = capitalize(date.toLocaleString("en-US", { weekday: "long" }));
 
   const [location, setLocation] = useState("London");
+  const [weatherArr, setWeatherArr] = useState();
   async function checkWeather() {
     const response = await fetch(`${apiUrl}${location}&appid=${apiKey}`);
     var data = await response.json();
-    console.log(data);
+
+    const response7days = await fetch(
+      `${weekdaysApiUrl}${location}&appid=${apiKey}`
+    );
+    var dataWeek = await response7days.json();
+
+    setWeatherArr(dataWeek);
     setWeatherObj({
       name: `${data.name}, ${data.sys.country}`,
       weatherMain: data.weather[0].main,
@@ -70,7 +79,7 @@ export default function App() {
         <div className={"weather-container"}>
           <img
             style={{ width: "180px", display: "block", margin: "0 auto" }}
-            src={weatherObj.icon !== "" ? weatherObj.icon : null}
+            src={weatherObj.name !== "" ? weatherObj.icon : ""}
             alt={""}
           />
 
@@ -128,17 +137,36 @@ export default function App() {
         </div>
         <div className={"visibility-container"}>
           <h2 style={{}}>{weatherObj.name !== "" ? "Visiblity" : ""}</h2>
-          <h1 style={{ fontSize: "3.5rem" }}>
-            {convertKm(weatherObj.visibility)}
-          </h1>
+          <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.visibility}</h1>
         </div>
         <div className={"sun-container"}>
-          <h2>Sunrise</h2>
+          <h2>{weatherObj.name !== "" ? "Sunrise" : ""}</h2>
           <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunrise : ""}</h2>
-          <h2>Sunset</h2>
+          <h2>{weatherObj.name !== "" ? "Sunset" : ""}</h2>
           <h2 style={{}}>{weatherObj.name !== "" ? weatherObj.sunset : ""}</h2>
         </div>
-        <div className={"div6"}></div>
+        <div className="div6">
+          {weatherArr !== undefined
+            ? weatherArr.list.map((element, index) =>
+                element.dt_txt.includes("12:00:00") ? (
+                  <div key={index} style={{ justifyContent: "center" }}>
+                    <h2 style={{ textAlign: "center" }}>
+                      {new Date(element.dt * 1000).toString().slice(0, 3)}
+                    </h2>
+                    <img
+                      src={`${iconUrl}${element.weather[0].icon}.png`}
+                      alt={"icon"}
+                      style={{ width: "70px" }}
+                    />
+                    <div style={{ display: "flex", columnGap: "5px" }}>
+                      <h4>{`${Math.round(Number(element.main.temp_max))}°`}</h4>
+                      <h4>{`${Math.round(Number(element.main.temp_min))}°`}</h4>
+                    </div>
+                  </div>
+                ) : null
+              )
+            : null}
+        </div>
       </div>
     </div>
   );

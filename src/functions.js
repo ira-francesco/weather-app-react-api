@@ -2,8 +2,6 @@ export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function getFormattedTime(date) {}
-
 export function convertKm(unit) {
   var km = unit / 1000;
   return `${km.toFixed(1)}`;
