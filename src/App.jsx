@@ -1,7 +1,13 @@
 import { useState } from "react";
 import "./style.scss";
 import backgroundImage from "./assets/background.jpg";
-import { capitalize, clock, convertKm, convertfromMphtoKm } from "./functions";
+import {
+  capitalize,
+  clock,
+  convertKm,
+  convertfromMphtoKm,
+  humidityCheck
+} from "./functions";
 export default function App() {
   const apiKey = "d54919d21826957b16fa1de8e3099d25";
 
@@ -37,14 +43,15 @@ export default function App() {
       `${weekdaysApiUrl}${location}&appid=${apiKey}`
     );
     var dataWeek = await response7days.json();
-
+    console.log(dataWeek);
+    console.log(data);
     setWeatherArr(dataWeek);
     setWeatherObj({
       name: `${data.name}, ${data.sys.country}`,
       weatherMain: data.weather[0].main,
       temp: `${Math.round(Number(data.main.temp))}`,
       feelsLike: `${Math.round(Number(data.main.feels_like))}° C`,
-      humidity: `${data.main.humidity}%`,
+      humidity: data.main.humidity,
       icon: `${iconUrl}${data.weather[0].icon}@2x.png`,
       description: data.weather[0].description,
       visibility: `${convertKm(data.visibility)}km`,
@@ -83,19 +90,21 @@ export default function App() {
             alt={""}
           />
 
-          <h1 style={{ fontSize: "3rem" }}>
+          <h1 style={{ fontSize: "4.2rem" }}>
             {weatherObj.temp}{" "}
             <span
               style={{
                 fontSize: "1.3rem",
                 position: "absolute",
-                marginTop: "7px"
+                marginTop: "10px"
               }}
             >
               {weatherObj.temp !== "" ? "°C" : ""}
             </span>
           </h1>
-          <h1>{weatherObj.name !== "" ? `${nameDay}, ${clock()}` : ""}</h1>
+          <h1 style={{ marginTop: "40px" }}>
+            {weatherObj.name !== "" ? `${nameDay}, ${clock()}` : ""}
+          </h1>
           <div
             style={{
               display: "flex",
@@ -121,15 +130,22 @@ export default function App() {
                 ? `https://flagsapi.com/${weatherObj.name.slice(
                     -2
                   )}/flat/64.png`
-                : ""
+                : null
             }
-            alt={"flag-icon"}
+            alt={""}
             style={{ display: "block", margin: "0 auto" }}
           />
         </div>
         <div className={"humidity-container"}>
           <h2>{weatherObj.name !== "" ? "Humidity" : ""}</h2>
-          <h1 style={{ fontSize: "3.5rem" }}>{weatherObj.humidity}</h1>
+          <h1 style={{ fontSize: "3.5rem" }}>
+            {weatherObj.name !== "" ? `${weatherObj.humidity}%` : ""}
+          </h1>
+          <h3>
+            {weatherObj.humidity !== ""
+              ? humidityCheck(weatherObj.humidity)
+              : ""}
+          </h3>
         </div>
         <div className={"wind-speed-container"}>
           <h2 style={{}}>{weatherObj.name !== "" ? "Wind Speed" : ""}</h2>
@@ -158,9 +174,14 @@ export default function App() {
                       alt={"icon"}
                       style={{ width: "70px" }}
                     />
-                    <div style={{ display: "flex", columnGap: "5px" }}>
-                      <h4>{`${Math.round(Number(element.main.temp_max))}°`}</h4>
-                      <h4>{`${Math.round(Number(element.main.temp_min))}°`}</h4>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around"
+                      }}
+                    >
+                      <h4>{`${Math.round(element.main.temp_min)}°`}</h4>
+                      <h4>{`${Math.round(element.main.temp_max)}°`}</h4>
                     </div>
                   </div>
                 ) : null

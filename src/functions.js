@@ -3,13 +3,11 @@ export function capitalize(string) {
 }
 
 export function convertKm(unit) {
-  var km = unit / 1000;
-  return `${km.toFixed(1)}`;
+  return `${(unit / 1000).toFixed(1)}`;
 }
 
 export function convertfromMphtoKm(unit) {
-  var kmh = unit * 1.609;
-  return `${kmh.toFixed(1)}`;
+  return `${(unit * 1.609).toFixed(1)}`;
 }
 
 export function clock() {
@@ -19,6 +17,14 @@ export function clock() {
   m = checkTime(m);
   setTimeout(clock, 1000);
   return `${h}:${m}`;
+}
+
+export function humidityCheck(humidity) {
+  return humidity <= 30
+    ? "Low 🟢"
+    : humidity > 30 && humidity <= 70
+    ? "Medium 🟡"
+    : "High 🔴";
 }
 
 function padTo2Digits(num) {
